@@ -5,15 +5,15 @@ from sklearn.model_selection import TimeSeriesSplit
 
 
 def make_train_test(df: pd.DataFrame):
-    """
-    BUG: split aléatoire sans respecter le temps -> fuite de données.
-    """
-    # Mélange les dates passées et futures => data leakage
-    df = df.sort_values('date', ascending=True)
-    split_index = int(len(df) * (0.8))
+    df = df.sort_values('date')
 
-    train = df.iloc[:split_index]
-    test = df.iloc[split_index:]
+    n_splits = int(1 / 0.2) 
+
+    tscv = TimeSeriesSplit(n_splits=n_splits)
+    train_idx, test_idx = next(tscv.split(df))
+
+    train = df.iloc[train_idx]
+    test = df.iloc[test_idx]
 
     return train, test
 
