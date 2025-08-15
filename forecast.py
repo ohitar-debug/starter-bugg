@@ -8,15 +8,16 @@ from sklearn.model_selection import TimeSeriesSplit
 import pandas as pd
 from forecast import make_train_test
 
-def test_no_data_leakage_on_dates():
+def make_train_test(df: pd.DataFrame):
     """
-    Le test est VERT si TOUTES les dates de test sont postérieures à TOUTES les dates de train.
-    Avec le split aléatoire, ce test DOIT échouer (ROUGE).
+    Split temporel 80/20 : toutes les dates de test sont postérieures à celles de train.
+    Hypothèse : df contient 'date' de type datetime.
     """
-    # Génère un DF simple directement depuis data.csv pour coller au vrai schéma
-    df = pd.read_csv("data.csv", parse_dates=["date"])
-
-    train, test = make_train_test(df)
+    df_sorted = df.sort_values("date").reset_index(drop=True)
+    cutoff = int(len(df_sorted) * 0.8)
+    train = df_sorted.iloc[:cutoff]
+    test  = df_sorted.iloc[cutoff:]
+    return train, test
 
     assert test["date"].min() > train["date"].max(), \
         "Fuite de données détectée : le split n'est pas temporel (dates train/test se chevauchent)."
