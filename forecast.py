@@ -1,12 +1,10 @@
-# forecast.py — VERSION BUGGÉE (intentionnellement)
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import TimeSeriesSplit
 
 
-import pandas as pd
-from forecast import make_train_test
+
 
 def make_train_test(df: pd.DataFrame):
     """
@@ -19,8 +17,6 @@ def make_train_test(df: pd.DataFrame):
     test  = df_sorted.iloc[cutoff:]
     return train, test
 
-    assert test["date"].min() > train["date"].max(), \
-        "Fuite de données détectée : le split n'est pas temporel (dates train/test se chevauchent)."
 
 
 if __name__ == "__main__":
