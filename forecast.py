@@ -19,6 +19,6 @@ if __name__ == "__main__":
     # Modèle "jouet" pour illustrer (au besoin, supprime si inutile)
     train, test = make_train_test(df)
     model = LinearRegression()
-    model.fit(train[["sales"]], train["sales"])  # (exemple bête : identity)
+    model.fit(train[["sales"]], train["sales"])
     score = model.score(test[["sales"]], test["sales"])
     print(f"Score test (buggué, fuite possible): {score:.3f}")
