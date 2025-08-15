@@ -4,25 +4,25 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import TimeSeriesSplit
 
 
-def make_train_test(df: pd.DataFrame):
-    """
-    BUG: split aléatoire sans respecter le temps -> fuite de données.
-    """
-    # Mélange les dates passées et futures => data leakage
-    train, test = train_test_split(df, test_size=0.2, random_state=42, shuffle=True)
-    return train, test
+# def make_train_test(df: pd.DataFrame):
+#     """
+#     BUG: split aléatoire sans respecter le temps -> fuite de données.
+#     """
+#     # Mélange les dates passées et futures => data leakage
+#     train, test = train_test_split(df, test_size=0.2, random_state=42, shuffle=True)
+#     return train, test
 
 # SOLUTION 1: séparation temporelle
 
-# def make_train_test(df: pd.DataFrame, test_size: float = 0.2):
-#     """
-#     Sépare les données sans les mélanger aléatoirement pour respecter l’ordre temporel.
-#     """
-#     df_sorted = df.sort_values("date")
-#     split_index = int(len(df_sorted) * (1 - test_size))
-#     train = df_sorted.iloc[:split_index]
-#     test = df_sorted.iloc[split_index:]
-#     return train, test
+def make_train_test(df: pd.DataFrame, test_size: float = 0.2):
+    """
+    Sépare les données sans les mélanger aléatoirement pour respecter l’ordre temporel.
+    """
+    df_sorted = df.sort_values("date")
+    split_index = int(len(df_sorted) * (1 - test_size))
+    train = df_sorted.iloc[:split_index]
+    test = df_sorted.iloc[split_index:]
+    return train, test
 
 # SOLUTION 2 avec les quantiles
 
