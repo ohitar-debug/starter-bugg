@@ -1,5 +1,6 @@
 import pandas as pd
 from forecast import make_train_test
+import pytest
 
 def test_no_data_leakage_on_dates():
     """
@@ -11,5 +12,8 @@ def test_no_data_leakage_on_dates():
 
     train, test = make_train_test(df)
 
-    assert test["date"].min() > train["date"].max(), \
-        "m"
+    assert test["date"].min() > train["date"].max(), (
+    f"Data leakage détecté : "
+    f"date minimale du test ({test['date'].min()}) "
+    f"inférieure ou égale à la date maximale du train ({train['date'].max()})"
+)
