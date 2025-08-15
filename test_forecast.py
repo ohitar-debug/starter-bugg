@@ -13,5 +13,3 @@ def test_no_data_leakage_on_dates():
 
     assert test["date"].min() > train["date"].max(), \
         "Fuite de données détectée : le split n'est pas temporel (dates train/test se chevauchent)."
-
-
