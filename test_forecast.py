@@ -11,5 +11,4 @@ def test_no_data_leakage_on_dates():
 
     train, test = make_train_test(df)
 
-    assert test["date"].min() > train["date"].max(), \
-        "m"
+    assert test["date"].min() > train["date"].max()

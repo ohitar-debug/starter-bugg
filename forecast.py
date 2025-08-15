@@ -9,7 +9,12 @@ def make_train_test(df: pd.DataFrame):
     BUG: split aléatoire sans respecter le temps -> fuite de données.
     """
     # Mélange les dates passées et futures => data leakage
-    train, test = train_test_split(df, test_size=0.2, random_state=42, shuffle=True)
+    df = df.sort_values('date', ascending=True)
+    split_index = int(len(df) * (0.8))
+
+    train = df.iloc[:split_index]
+    test = df.iloc[split_index:]
+
     return train, test
 
 
