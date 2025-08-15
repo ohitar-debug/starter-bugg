@@ -5,15 +5,11 @@ from sklearn.model_selection import TimeSeriesSplit
 
 
 def make_train_test(df: pd.DataFrame):
-    df = df.sort_values('date')
+    # Trier par date pour garantir l'ordre temporel
+    df = df.sort_values("date")
 
-    n_splits = int(1 / 0.2) 
-
-    tscv = TimeSeriesSplit(n_splits=n_splits)
-    train_idx, test_idx = next(tscv.split(df))
-
-    train = df.iloc[train_idx]
-    test = df.iloc[test_idx]
+    # Split sans mélange
+    train, test = train_test_split(df, test_size=0.2, shuffle=False)
 
     return train, test
 
