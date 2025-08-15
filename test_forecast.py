@@ -1,5 +1,6 @@
 import pandas as pd
 from forecast import make_train_test
+import pytest
 
 def test_no_data_leakage_on_dates():
     """
