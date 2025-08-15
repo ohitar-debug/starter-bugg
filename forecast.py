@@ -6,10 +6,13 @@ from sklearn.model_selection import TimeSeriesSplit
 
 def make_train_test(df: pd.DataFrame):
     """
-    BUG: split aléatoire sans respecter le temps -> fuite de données.
+    Correction A : split temporel simple 80/20.
+    Hypothèse: df contient une colonne 'date'.
     """
-    # Mélange les dates passées et futures => data leakage
-    train, test = train_test_split(df, test_size=0.2, random_state=42, shuffle=True)
+    df_sorted = df.sort_values("date").reset_index(drop=True)
+    cutoff = int(len(df_sorted) * 0.8)
+    train = df_sorted.iloc[:cutoff]
+    test  = df_sorted.iloc[cutoff:]
     return train, test
 
 
